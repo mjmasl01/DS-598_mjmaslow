@@ -1,0 +1,9 @@
+{
+	"name": "DS598mjmaslow",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "5c56765e-c5df-40f8-b4b4-baa743fb6324",
+		"tenantId": "d57d32cc-c121-488f-b07b-dfe705680c71"
+	}
+}
