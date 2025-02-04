@@ -1,0 +1,17 @@
+{
+	"name": "Air_Pollution_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HttpServer_air_pollution",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		},
+		"schema": {}
+	}
+}
