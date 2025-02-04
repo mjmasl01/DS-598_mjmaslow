@@ -1,0 +1,11 @@
+{
+	"name": "AzureBlobStorage_Air_Pollution",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"containerUri": "https://ds598homeworks.blob.core.windows.net/hw1",
+			"authenticationType": "Anonymous"
+		}
+	}
+}
