@@ -5,12 +5,26 @@
 			"referenceName": "HttpServer_HistoricalWeather",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"lat": {
+				"type": "string"
+			},
+			"lon": {
+				"type": "string"
+			},
+			"appid": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea"
+				"relativeUrl": {
+					"value": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea\n\n",
+					"type": "Expression"
+				}
 			}
 		},
 		"schema": {}
