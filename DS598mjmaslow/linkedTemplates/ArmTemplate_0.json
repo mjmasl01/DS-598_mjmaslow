@@ -173,7 +173,7 @@
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": {
-							"value": "@concat('weather_week_', formatDateTime(subtractFromTime(startOfWeek(utcnow(), 'Monday'), item(), 'Week'), 'yyyyMMdd'), '.json')",
+							"value": "@concat('weather_week_', formatDateTime(subtractFromTime(subtractFromTime(utcNow(), dayOfWeek(utcNow()), 'Day'), pipeline().parameters.weekID, 'Week'), 'yyyyMMdd'), '.json')",
 							"type": "Expression"
 						},
 						"folderPath": "bronze/historical_weather",
@@ -351,6 +351,14 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"weekOffset": {
+						"type": "Integer"
+					},
+					"weekParam": {
+						"type": "Integer"
+					}
 				},
 				"annotations": []
 			},
