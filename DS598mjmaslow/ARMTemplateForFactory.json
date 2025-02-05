@@ -115,7 +115,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "range(1,53)",
+								"value": "@range(0, 52)",
 								"type": "Expression"
 							},
 							"isSequential": true,
@@ -197,8 +197,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "air_pollution_@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy-MM-dd')}.json",
-						"folderPath": "bronze/air_pollution/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy')}/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'MM')}",
+						"fileName": "air_pollution_Jan12024_Jan12025.json",
+						"folderPath": "bronze/air_pollution",
 						"container": "homwork1"
 					}
 				},
@@ -245,8 +245,11 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "air_pollution_@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy-MM-dd')}.json",
-						"folderPath": "bronze/weather_history/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy')}/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'MM')}",
+						"fileName": {
+							"value": "@concat('weather_week_', formatDateTime(subtractFromTime(startOfWeek(utcnow(), 'Monday'), item(), 'Week'), 'yyyyMMdd'), '.json')",
+							"type": "Expression"
+						},
+						"folderPath": "bronze/historical_weather",
 						"container": "homwork1"
 					}
 				},
@@ -271,7 +274,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": {
-							"value": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea\n\n",
+							"value": "data/2.5/onecall/timemachine?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea')",
 							"type": "Expression"
 						}
 					}
