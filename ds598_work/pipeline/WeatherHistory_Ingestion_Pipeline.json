@@ -79,7 +79,10 @@
 							"userProperties": [],
 							"typeProperties": {
 								"variableName": "weekParam",
-								"value": "@variables('weekID')\n"
+								"value": {
+									"value": "@variables('weekID')\n",
+									"type": "Expression"
+								}
 							}
 						}
 					]
