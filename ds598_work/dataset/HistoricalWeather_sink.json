@@ -10,6 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
+				"fileName": "@concat('weather_week_', formatDateTime(subtractFromTime(startOfWeek(utcnow(), 'Monday'), item(), 'Week'), 'yyyyMMdd'), '.json')",
+				"folderPath": "bronze/historical_weather",
 				"container": "homwork1"
 			}
 		},
