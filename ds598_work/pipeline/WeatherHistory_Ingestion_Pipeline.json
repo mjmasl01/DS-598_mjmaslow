@@ -19,7 +19,7 @@
 							"type": "Copy",
 							"dependsOn": [
 								{
-									"activity": "Set variable_weekID",
+									"activity": "Set variable weekParam",
 									"dependencyConditions": [
 										"Completed"
 									]
@@ -69,7 +69,7 @@
 							]
 						},
 						{
-							"name": "Set variable_weekID",
+							"name": "Set variable weekParam",
 							"type": "SetVariable",
 							"dependsOn": [],
 							"policy": {
@@ -78,8 +78,8 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"variableName": "weekOffset",
-								"value": "@item()"
+								"variableName": "weekParam",
+								"value": "@variables('weekID')\n"
 							}
 						}
 					]
@@ -88,6 +88,9 @@
 		],
 		"variables": {
 			"weekOffset": {
+				"type": "Integer"
+			},
+			"weekParam": {
 				"type": "Integer"
 			}
 		},
