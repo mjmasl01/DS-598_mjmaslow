@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DS598mjmaslow"
+		},
+		"DS598_mjmaslow_credential": {
+			"value": ""
+		},
+		"AzureBlobStorage_AirPollution_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage_HistoricalWeather_connectionString": {
+			"value": ""
+		},
+		"DS598_mjmaslow_properties_typeProperties_username": {
+			"value": "mjmaslow"
+		},
+		"HttpServer_Air_Pollution_properties_typeProperties_url": {
+			"value": "http://api.openweathermap.org/"
+		},
+		"HttpServer_HistoricalWeather_properties_typeProperties_url": {
+			"value": "http://api.openweathermap.org/"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}

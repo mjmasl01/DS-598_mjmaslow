@@ -1,0 +1,84 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DS598mjmaslow"
+		},
+		"DS598_mjmaslow_credential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'credential' of 'DS598_mjmaslow'"
+		},
+		"AzureBlobStorage_AirPollution_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_AirPollution'"
+		},
+		"AzureBlobStorage_HistoricalWeather_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_HistoricalWeather'"
+		},
+		"DS598_mjmaslow_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "mjmaslow"
+		},
+		"HttpServer_Air_Pollution_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://api.openweathermap.org/"
+		},
+		"HttpServer_HistoricalWeather_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "http://api.openweathermap.org/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "DS598mjmaslow_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"DS598_mjmaslow_credential": {
+						"value": "[parameters('DS598_mjmaslow_credential')]"
+					},
+					"AzureBlobStorage_AirPollution_connectionString": {
+						"value": "[parameters('AzureBlobStorage_AirPollution_connectionString')]"
+					},
+					"AzureBlobStorage_HistoricalWeather_connectionString": {
+						"value": "[parameters('AzureBlobStorage_HistoricalWeather_connectionString')]"
+					},
+					"DS598_mjmaslow_properties_typeProperties_username": {
+						"value": "[parameters('DS598_mjmaslow_properties_typeProperties_username')]"
+					},
+					"HttpServer_Air_Pollution_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer_Air_Pollution_properties_typeProperties_url')]"
+					},
+					"HttpServer_HistoricalWeather_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer_HistoricalWeather_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
