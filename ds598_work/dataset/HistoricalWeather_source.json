@@ -5,17 +5,6 @@
 			"referenceName": "HttpServer_HistoricalWeather",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"lat": {
-				"type": "string"
-			},
-			"lon": {
-				"type": "string"
-			},
-			"appid": {
-				"type": "string"
-			}
-		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
