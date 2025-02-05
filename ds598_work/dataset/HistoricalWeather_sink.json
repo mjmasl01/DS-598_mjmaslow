@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "weather_history_@{formatDateTime(addDays(utcNow(), -item()), 'yyyy-MM-dd')}.json",
-				"folderPath": "bronze/weather_history/@{formatDateTime(addDays(utcNow(), -item()), 'yyyy')}/ @{formatDateTime(addDays(utcNow(), -item()), 'MM')}/ @{formatDateTime(addDays(utcNow(), -item()), 'dd')}",
+				"fileName": "week_@{formatDateTime(addDays(utcNow(), -1 * item()), 'yyyy-MM-dd')}.json",
+				"folderPath": "bronze/weather_history/@{formatDateTime(addDays(utcNow(), -1 * item()), 'yyyy')}/ @{formatDateTime(addDays(utcNow(), -1 * item()), 'MM')}/",
 				"container": "homwork1"
 			}
 		},
