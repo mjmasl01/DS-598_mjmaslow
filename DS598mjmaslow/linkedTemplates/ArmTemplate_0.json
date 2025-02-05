@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS598mjmaslow"
 		},
-		"DS598_mjmaslow_credential": {
-			"type": "secureString",
-			"metadata": "Secure string for 'credential' of 'DS598_mjmaslow'"
-		},
 		"AzureBlobStorage_AirPollution_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_AirPollution'"
@@ -18,6 +14,10 @@
 		"AzureBlobStorage_HistoricalWeather_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_HistoricalWeather'"
+		},
+		"DS598_mjmaslow_credential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'credential' of 'DS598_mjmaslow'"
 		},
 		"DS598_mjmaslow_properties_typeProperties_username": {
 			"type": "string",
@@ -36,6 +36,32 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage_AirPollution')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage_AirPollution_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage_HistoricalWeather')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage_HistoricalWeather_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS598_mjmaslow')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -70,19 +96,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage_AirPollution')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage_AirPollution_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/HttpServer_HistoricalWeather')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -98,17 +111,35 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage_HistoricalWeather')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/Air_Pollution_sink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage_AirPollution",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "Json",
 				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobStorage_HistoricalWeather_connectionString')]"
-				}
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": {
+							"value": "air_pollution_@{utcNow()}.json",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "bronze/air_pollution/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}",
+							"type": "Expression"
+						},
+						"container": "homwork1"
+					}
+				},
+				"schema": {}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_AirPollution')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Air_Pollution_source')]",
@@ -134,12 +165,12 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Air_Pollution_sink')]",
+			"name": "[concat(parameters('factoryName'), '/HistoricalWeather_sink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage_AirPollution",
+					"referenceName": "AzureBlobStorage_HistoricalWeather",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -147,15 +178,15 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "air_pollution_@{utcNow()}.json",
-						"folderPath": "bronze/air_pollution/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}",
+						"fileName": "week_@{formatDateTime(addDays(utcNow(), -1 * item()), 'yyyy-MM-dd')}.json",
+						"folderPath": "bronze/weather_history/@{formatDateTime(addDays(utcNow(), -1 * item()), 'yyyy')}/ @{formatDateTime(addDays(utcNow(), -1 * item()), 'MM')}/",
 						"container": "homwork1"
 					}
 				},
 				"schema": {}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_AirPollution')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_HistoricalWeather')]"
 			]
 		},
 		{
@@ -172,38 +203,16 @@
 				"typeProperties": {
 					"location": {
 						"type": "HttpServerLocation",
-						"relativeUrl": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea"
+						"relativeUrl": {
+							"value": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea\n\n",
+							"type": "Expression"
+						}
 					}
 				},
 				"schema": {}
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/HttpServer_HistoricalWeather')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/HistoricalWeather_sink')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage_HistoricalWeather",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "weather_history_@{formatDateTime(addDays(utcNow(), -item()), 'yyyy-MM-dd')}.json",
-						"folderPath": "bronze/weather_history/@{formatDateTime(addDays(utcNow(), -item()), 'yyyy')}/ @{formatDateTime(addDays(utcNow(), -item()), 'MM')}/ @{formatDateTime(addDays(utcNow(), -item()), 'dd')}",
-						"container": "homwork1"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_HistoricalWeather')]"
 			]
 		},
 		{
@@ -279,53 +288,68 @@
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_WeatherHistory_Data",
-						"type": "Copy",
+						"name": "ForEach_HitoricalWeather",
+						"type": "ForEach",
 						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
 						"userProperties": [],
 						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
+							"items": {
+								"value": "range(1,53)",
+								"type": "Expression"
 							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy_HistoricalWeather_Data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "JsonSource",
+											"storeSettings": {
+												"type": "HttpReadSettings",
+												"requestMethod": "GET"
+											},
+											"formatSettings": {
+												"type": "JsonReadSettings"
+											}
+										},
+										"sink": {
+											"type": "JsonSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "JsonWriteSettings"
+											}
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "HistoricalWeather_source",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "HistoricalWeather_sink",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
 								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "HistoricalWeather_source",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "HistoricalWeather_sink",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
+							]
+						}
 					}
 				],
 				"policy": {

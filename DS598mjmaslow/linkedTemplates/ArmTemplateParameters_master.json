@@ -5,13 +5,13 @@
 		"factoryName": {
 			"value": "DS598mjmaslow"
 		},
-		"DS598_mjmaslow_credential": {
-			"value": ""
-		},
 		"AzureBlobStorage_AirPollution_connectionString": {
 			"value": ""
 		},
 		"AzureBlobStorage_HistoricalWeather_connectionString": {
+			"value": ""
+		},
+		"DS598_mjmaslow_credential": {
 			"value": ""
 		},
 		"DS598_mjmaslow_properties_typeProperties_username": {

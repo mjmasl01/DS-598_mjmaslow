@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DS598mjmaslow"
 		},
-		"DS598_mjmaslow_credential": {
-			"type": "secureString",
-			"metadata": "Secure string for 'credential' of 'DS598_mjmaslow'"
-		},
 		"AzureBlobStorage_AirPollution_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_AirPollution'"
@@ -18,6 +14,10 @@
 		"AzureBlobStorage_HistoricalWeather_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage_HistoricalWeather'"
+		},
+		"DS598_mjmaslow_credential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'credential' of 'DS598_mjmaslow'"
 		},
 		"DS598_mjmaslow_properties_typeProperties_username": {
 			"type": "string",
@@ -58,14 +58,14 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"DS598_mjmaslow_credential": {
-						"value": "[parameters('DS598_mjmaslow_credential')]"
-					},
 					"AzureBlobStorage_AirPollution_connectionString": {
 						"value": "[parameters('AzureBlobStorage_AirPollution_connectionString')]"
 					},
 					"AzureBlobStorage_HistoricalWeather_connectionString": {
 						"value": "[parameters('AzureBlobStorage_HistoricalWeather_connectionString')]"
+					},
+					"DS598_mjmaslow_credential": {
+						"value": "[parameters('DS598_mjmaslow_credential')]"
 					},
 					"DS598_mjmaslow_properties_typeProperties_username": {
 						"value": "[parameters('DS598_mjmaslow_properties_typeProperties_username')]"
