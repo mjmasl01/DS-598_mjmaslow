@@ -197,14 +197,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "air_pollution_@{utcNow()}.json",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "bronze/air_pollution/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}",
-							"type": "Expression"
-						},
+						"fileName": "air_pollution_@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy-MM-dd')}.json",
+						"folderPath": "bronze/air_pollution/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy')}/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'MM')}",
 						"container": "homwork1"
 					}
 				},
@@ -251,8 +245,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "week_@{formatDateTime(addDays(utcNow(), -1 * item()), 'yyyy-MM-dd')}.json",
-						"folderPath": "bronze/weather_history/@{formatDateTime(addDays(utcNow(), -1 * item()), 'yyyy')}/ @{formatDateTime(addDays(utcNow(), -1 * item()), 'MM')}/",
+						"fileName": "air_pollution_@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy-MM-dd')}.json",
+						"folderPath": "bronze/weather_history/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'yyyy')}/@{formatDateTime(addDays('2024-01-01', (int)index() * 7), 'MM')}",
 						"container": "homwork1"
 					}
 				},
