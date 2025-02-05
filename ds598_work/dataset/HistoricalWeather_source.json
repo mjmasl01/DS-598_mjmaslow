@@ -10,7 +10,10 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "@concat('data/2.5/onecall/timemachine?lat=42.3601&lon=-71.0589&dt=',         @div(subtractFromTime(startOfWeek(utcnow(), 'Monday'), item(), 'Week'), 1000),         '&appid=fb5db4bc5fe067c1245a42fef44a01ea')"
+				"relativeUrl": {
+					"value": "data/2.5/onecall/timemachine?lat=42.3601&lon=-71.0589&appid=fb5db4bc5fe067c1245a42fef44a01ea')",
+					"type": "Expression"
+				}
 			}
 		},
 		"schema": {}
