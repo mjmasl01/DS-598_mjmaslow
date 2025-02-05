@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "air_pollution_@{utcNow()}.json",
-				"folderPath": "bronze/air_pollution/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}",
+				"fileName": "air_pollution_@{formatDateTime(addDays('2024-01-01', (int)item() * 7), 'yyyy-MM-dd')}.json",
+				"folderPath": "bronze/air_pollution/@{formatDateTime(addDays('2024-01-01', (int)item() * 7), 'yyyy')}/ @{formatDateTime(addDays('2024-01-01', (int)item() * 7), 'MM')}",
 				"container": "homwork1"
 			}
 		},
