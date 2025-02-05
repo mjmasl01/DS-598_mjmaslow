@@ -1,0 +1,20 @@
+{
+	"name": "HistoricalWeather_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage_HistoricalWeather",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "weather_history_@{formatDateTime(addDays(utcNow(), -item()), 'yyyy-MM-dd')}.json",
+				"folderPath": "bronze/weather_history/@{formatDateTime(addDays(utcNow(), -item()), 'yyyy')}/ @{formatDateTime(addDays(utcNow(), -item()), 'MM')}/ @{formatDateTime(addDays(utcNow(), -item()), 'dd')}",
+				"container": "homwork1"
+			}
+		},
+		"schema": {}
+	}
+}
