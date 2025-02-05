@@ -1,0 +1,20 @@
+{
+	"name": "Air_Pollution_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage_AirPollution",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "air_pollution_@{utcNow()}.json",
+				"folderPath": "bronze/air_pollution/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}",
+				"container": "homwork1"
+			}
+		},
+		"schema": {}
+	}
+}
