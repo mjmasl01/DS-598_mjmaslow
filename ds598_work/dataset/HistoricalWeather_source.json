@@ -5,11 +5,6 @@
 			"referenceName": "HttpServer_HistoricalWeather",
 			"type": "LinkedServiceReference"
 		},
-		"parameters": {
-			"weekID": {
-				"type": "int"
-			}
-		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {

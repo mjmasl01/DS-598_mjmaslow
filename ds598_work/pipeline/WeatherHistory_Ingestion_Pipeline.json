@@ -17,14 +17,7 @@
 						{
 							"name": "Copy_HistoricalWeather_Data",
 							"type": "Copy",
-							"dependsOn": [
-								{
-									"activity": "Set variable weekParam",
-									"dependencyConditions": [
-										"Completed"
-									]
-								}
-							],
+							"dependsOn": [],
 							"policy": {
 								"timeout": "0.12:00:00",
 								"retry": 0,
@@ -67,23 +60,6 @@
 									"type": "DatasetReference"
 								}
 							]
-						},
-						{
-							"name": "Set variable weekParam",
-							"type": "SetVariable",
-							"dependsOn": [],
-							"policy": {
-								"secureOutput": false,
-								"secureInput": false
-							},
-							"userProperties": [],
-							"typeProperties": {
-								"variableName": "weekParam",
-								"value": {
-									"value": "@variables('weekID')\n",
-									"type": "Expression"
-								}
-							}
 						}
 					]
 				}
