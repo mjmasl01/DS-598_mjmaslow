@@ -20,7 +20,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "data/2.5/onecall/timemachine?lat=42.3601&lon=-71.0589",
+					"value": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=@{dataset().appid}",
 					"type": "Expression"
 				}
 			}
