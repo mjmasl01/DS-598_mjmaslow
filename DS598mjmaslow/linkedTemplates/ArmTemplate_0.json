@@ -167,13 +167,18 @@
 					"referenceName": "AzureBlobStorage_HistoricalWeather",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"weekID": {
+						"type": "int"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
 						"fileName": {
-							"value": "@concat('weather_week_', formatDateTime(subtractFromTime(subtractFromTime(utcNow(), dayOfWeek(utcNow()), 'Day'), pipeline().parameters.weekID, 'Week'), 'yyyyMMdd'), '.json')",
+							"value": "@concat('processed_weather_week_', formatDateTime(subtractFromTime(subtractFromTime(utcNow(), dayOfWeek(utcNow()), 'Day'), dataset().weekID, 'Week'), 'yyyyMMdd'), '.json')",
 							"type": "Expression"
 						},
 						"folderPath": "bronze/historical_weather",
@@ -194,6 +199,11 @@
 				"linkedServiceName": {
 					"referenceName": "HttpServer_HistoricalWeather",
 					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"weekID": {
+						"type": "int"
+					}
 				},
 				"annotations": [],
 				"type": "Json",
@@ -291,7 +301,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@range(0, 52)",
+								"value": "@range(1, 53)",
 								"type": "Expression"
 							},
 							"isSequential": true,
@@ -334,14 +344,18 @@
 										{
 											"referenceName": "HistoricalWeather_source",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"weekID": "@item()"
+											}
 										}
 									],
 									"outputs": [
 										{
 											"referenceName": "HistoricalWeather_sink",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"weekID": "@item()"
+											}
 										}
 									]
 								}
