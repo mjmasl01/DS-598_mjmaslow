@@ -12,7 +12,19 @@
 					"name": "WeatherSourceBronze"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "HistoricalWeather_sink",
+						"type": "DatasetReference"
+					},
+					"name": "WeatherSinkParquet",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage_HistoricalWeather",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "FlattenWeatherSource"
@@ -25,6 +37,9 @@
 				},
 				{
 					"name": "AddTransformedWeatherFields"
+				},
+				{
+					"name": "SelectFinalWeatherColumns"
 				}
 			],
 			"scriptLines": [
@@ -87,7 +102,42 @@
 				"          lat = 42.3601,",
 				"          lon = -71.0589,",
 				"          weather_id_value = toInteger(weather_id),",
-				"          snow_1h = iif(isNull(snow_1h), toFloat(0.0), toFloat(snow_1h))) ~> AddTransformedWeatherFields"
+				"          snow_1h = iif(isNull(snow_1h), toFloat(0.0), toFloat(snow_1h))) ~> AddTransformedWeatherFields",
+				"AddTransformedWeatherFields select(mapColumn(",
+				"          weather_description,",
+				"          clouds_all,",
+				"          timestamp,",
+				"          feels_like_K = feels_like,",
+				"          humidity,",
+				"          pressure,",
+				"          temp_K = temp,",
+				"          temp_max_K = temp_max,",
+				"          temp_min_K = temp_min,",
+				"          weather_icon,",
+				"          wind_deg,",
+				"          wind_speed,",
+				"          snow_1h,",
+				"          location,",
+				"          date_time,",
+				"          id,",
+				"          temp_C,",
+				"          temp_min_C,",
+				"          temp_max_C,",
+				"          feels_like_C,",
+				"          temp_min_F,",
+				"          temp_max_F,",
+				"          lat,",
+				"          lon,",
+				"          weather_id_value",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SelectFinalWeatherColumns",
+				"SelectFinalWeatherColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:[''],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> WeatherSinkParquet"
 			]
 		}
 	}
