@@ -1,0 +1,25 @@
+{
+	"name": "airPollution_preprocessing_data",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Air_Pollution_sink",
+						"type": "DatasetReference"
+					},
+					"name": "AirPollutionSourceBronze"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> AirPollutionSourceBronze"
+			]
+		}
+	}
+}
