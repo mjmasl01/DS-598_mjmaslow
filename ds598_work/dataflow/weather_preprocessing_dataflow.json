@@ -64,7 +64,7 @@
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine',",
 				"     wildcardPaths:['bronze/historical_weather/*.json']) ~> WeatherSourceBronze",
-				"WeatherSourceBronze foldDown(unroll(),",
+				"WeatherSourceBronze foldDown(unroll(weather),",
 				"     mapColumn(",
 				"          city_id = sys.id,",
 				"          cnt = base,",
