@@ -16,6 +16,9 @@
 			"transformations": [
 				{
 					"name": "FlattenWeatherSource"
+				},
+				{
+					"name": "AddCorrectedTimestampAndLocation"
 				}
 			],
 			"scriptLines": [
@@ -59,10 +62,13 @@
 				"          weather_main = weather.main,",
 				"          wind_deg = wind.deg,",
 				"          wind_speed = wind.speed,",
-				"          snow_1h = snow.{1h}",
+				"          snow_1h = snow.{1h},",
+				"          location = name",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> FlattenWeatherSource"
+				"     skipDuplicateMapOutputs: false) ~> FlattenWeatherSource",
+				"FlattenWeatherSource derive(timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
+				"          location = 'Boston') ~> AddCorrectedTimestampAndLocation"
 			]
 		}
 	}
