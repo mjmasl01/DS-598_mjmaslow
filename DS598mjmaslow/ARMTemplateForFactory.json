@@ -103,6 +103,52 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PollutionPreProcessPipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Air Pollution Data flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "airPollution_preprocessing_data",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"AirPollutionSourceBronze": {},
+									"PollutionSinkParquet": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/airPollution_preprocessing_data')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/WeatherHistory_Ingestion_Pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -219,7 +265,9 @@
 								"parameters": {},
 								"datasetParameters": {
 									"WeatherSourceBronze": {},
-									"WeatherSinkParquet": {}
+									"WeatherSinkParquet": {
+										"WeekID": 1
+									}
 								}
 							},
 							"staging": {},
