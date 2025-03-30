@@ -12,10 +12,34 @@
 					"name": "AirPollutionSourceBronze"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Air_Pollution_sink",
+						"type": "DatasetReference"
+					},
+					"name": "PollutionSinkParquet",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage_AirPollution",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "flattenAirPollutionSource"
+				},
+				{
+					"name": "AddCorrectedTimestampAndLocation"
+				},
+				{
+					"name": "FilterValidPollutionRows"
+				},
+				{
+					"name": "AddTransformedPollutionFields"
+				},
+				{
+					"name": "selectFinalPollutionColumns"
 				}
 			],
 			"scriptLines": [
@@ -30,7 +54,7 @@
 				"     wildcardPaths:['bronze/air_pollution/*.json']) ~> AirPollutionSourceBronze",
 				"AirPollutionSourceBronze foldDown(unroll(list, list),",
 				"     mapColumn(",
-				"          aqui = list.main.aqi,",
+				"          aqi = list.main.aqi,",
 				"          timestamp = list.dt,",
 				"          co = list.components.co,",
 				"          nh3 = list.components.nh3,",
@@ -42,7 +66,43 @@
 				"          so2 = list.components.so2",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flattenAirPollutionSource"
+				"     skipDuplicateMapOutputs: false) ~> flattenAirPollutionSource",
+				"flattenAirPollutionSource derive(timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
+				"          location = 'Boston') ~> AddCorrectedTimestampAndLocation",
+				"AddCorrectedTimestampAndLocation filter(!isNull(timestamp) && !isNull(aqi)",
+				") ~> FilterValidPollutionRows",
+				"FilterValidPollutionRows derive(date_time = toTimestamp(toLong(timestamp) * 1000),",
+				"          id = concat(location, '_', toString(timestamp)),",
+				"          co = round(co, 2),",
+				"          nh3 = round(nh3, 2),",
+				"          no = round(no, 2),",
+				"          no2 = round(no2, 2),",
+				"          o3 = round(o3, 2),",
+				"          pm10 = round(pm10, 2),",
+				"          pm2_5 = round(pm2_5, 2),",
+				"          so2 = round(so2, 2)) ~> AddTransformedPollutionFields",
+				"AddTransformedPollutionFields select(mapColumn(",
+				"          aqi,",
+				"          co,",
+				"          nh3,",
+				"          no,",
+				"          no2,",
+				"          o3,",
+				"          pm10,",
+				"          pm2_5,",
+				"          so2,",
+				"          location,",
+				"          date_time,",
+				"          id",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectFinalPollutionColumns",
+				"selectFinalPollutionColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     partitionFileNames:['air_pollution_data_silver.parquet'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> PollutionSinkParquet"
 			]
 		}
 	}

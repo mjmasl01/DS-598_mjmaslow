@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "air_pollution_Jan12024_Jan12025.json",
-				"folderPath": "bronze/air_pollution",
+				"fileName": "processed_air_pollution_Jan12024_Jan12025.json",
+				"folderPath": "silver/air_pollution",
 				"container": "homwork1"
 			}
 		},
