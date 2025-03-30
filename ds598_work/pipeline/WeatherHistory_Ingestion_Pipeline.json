@@ -61,10 +61,7 @@
 							"outputs": [
 								{
 									"referenceName": "HistoricalWeather_sink",
-									"type": "DatasetReference",
-									"parameters": {
-										"weekID": "@item()"
-									}
+									"type": "DatasetReference"
 								}
 							]
 						}

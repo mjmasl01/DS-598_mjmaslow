@@ -5,6 +5,12 @@
 			"referenceName": "AzureBlobStorage_HistoricalWeather",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"WeekID": {
+				"type": "int",
+				"defaultValue": 1
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
