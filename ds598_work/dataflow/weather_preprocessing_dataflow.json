@@ -19,6 +19,12 @@
 				},
 				{
 					"name": "AddCorrectedTimestampAndLocation"
+				},
+				{
+					"name": "FilterValidWeatherRows"
+				},
+				{
+					"name": "AddTransformedWeatherFields"
 				}
 			],
 			"scriptLines": [
@@ -68,7 +74,20 @@
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> FlattenWeatherSource",
 				"FlattenWeatherSource derive(timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
-				"          location = 'Boston') ~> AddCorrectedTimestampAndLocation"
+				"          location = 'Boston') ~> AddCorrectedTimestampAndLocation",
+				"AddCorrectedTimestampAndLocation filter(!isNull(timestamp) && !isNull(temp) && !isNull(humidity)) ~> FilterValidWeatherRows",
+				"FilterValidWeatherRows derive(date_time = toTimestamp(toLong(timestamp) * 1000),",
+				"          id = concat(location, '_', toString(timestamp)),",
+				"          temp_C = round(temp - 273.15, 2),",
+				"          temp_min_C = round(temp_min - 273.15, 2),",
+				"          temp_max_C = round(temp_max - 273.15, 2),",
+				"          feels_like_C = round(((feels_like - 273.15) * 9 / 5) + 32, 2),",
+				"          temp_min_F = round(((temp_min - 273.15) * 9 / 5) + 32, 2),",
+				"          temp_max_F = round(((temp_max - 273.15) * 9 / 5) + 32, 2),",
+				"          lat = 42.3601,",
+				"          lon = -71.0589,",
+				"          weather_id_value = toInteger(weather_id),",
+				"          snow_1h = iif(isNull(snow_1h), toFloat(0.0), toFloat(snow_1h))) ~> AddTransformedWeatherFields"
 			]
 		}
 	}
