@@ -134,7 +134,7 @@
 				"     skipDuplicateMapOutputs: true) ~> SelectFinalWeatherColumns",
 				"SelectFinalWeatherColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['weather_data_silver.parquet'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> WeatherSinkParquet"
