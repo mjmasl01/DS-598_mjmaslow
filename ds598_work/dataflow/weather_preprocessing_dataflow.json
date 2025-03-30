@@ -1,0 +1,25 @@
+{
+	"name": "weather_preprocessing_dataflow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "HistoricalWeather_source",
+						"type": "DatasetReference"
+					},
+					"name": "WeatherSourceBronze"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> WeatherSourceBronze"
+			]
+		}
+	}
+}
