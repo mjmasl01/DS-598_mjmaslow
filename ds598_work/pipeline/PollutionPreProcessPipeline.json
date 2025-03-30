@@ -1,9 +1,9 @@
 {
-	"name": "WeatherPreprocessingPipeline",
+	"name": "PollutionPreProcessPipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "Weather Data flow",
+				"name": "Air Pollution Data flow",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,13 +16,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "weather_preprocessing_dataflow",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"WeatherSinkParquet": {
-								"WeekID": 1
-							}
-						}
+						"referenceName": "airPollution_preprocessing_data",
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
