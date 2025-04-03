@@ -6,17 +6,11 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"appid": {
-				"type": "string",
-				"defaultValue": "fb5db4bc5fe067c1245a42fef44a01ea"
-			},
 			"lat": {
-				"type": "float",
-				"defaultValue": 42.3601
+				"type": "float"
 			},
 			"lon": {
-				"type": "float",
-				"defaultValue": -71.0589
+				"type": "float"
 			},
 			"start": {
 				"type": "string"
@@ -25,8 +19,10 @@
 				"type": "string"
 			},
 			"datatype": {
-				"type": "string",
-				"defaultValue": "hour"
+				"type": "string"
+			},
+			"appid": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
