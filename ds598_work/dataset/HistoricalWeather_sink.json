@@ -16,10 +16,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": {
-					"value": "@concat('processed_weather_week_', formatDateTime(subtractFromTime(subtractFromTime(utcNow(), dayOfWeek(utcNow()), 'Day'), dataset().weekID, 'Week'), 'yyyyMMdd'), '.json')",
-					"type": "Expression"
-				},
 				"folderPath": "silver/historical_weather",
 				"container": "homwork1"
 			}

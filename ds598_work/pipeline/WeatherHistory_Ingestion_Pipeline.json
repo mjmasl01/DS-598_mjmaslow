@@ -82,6 +82,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"weeksAgo": {
+				"type": "int",
+				"defaultValue": 52
+			}
+		},
 		"variables": {
 			"weekOffset": {
 				"type": "Integer"
