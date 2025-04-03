@@ -53,7 +53,6 @@
 									"referenceName": "HistoricalWeather_source",
 									"type": "DatasetReference",
 									"parameters": {
-										"weekID": "@item()",
 										"appid": "fb5db4bc5fe067c1245a42fef44a01ea"
 									}
 								}
@@ -61,7 +60,10 @@
 							"outputs": [
 								{
 									"referenceName": "HistoricalWeather_sink",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"WeekID": 1
+									}
 								}
 							]
 						}

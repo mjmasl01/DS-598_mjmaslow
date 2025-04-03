@@ -6,12 +6,23 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"weekID": {
-				"type": "int"
-			},
 			"appid": {
 				"type": "string",
 				"defaultValue": "fb5db4bc5fe067c1245a42fef44a01ea"
+			},
+			"lat": {
+				"type": "float",
+				"defaultValue": 42.3601
+			},
+			"lon": {
+				"type": "float",
+				"defaultValue": -71.0589
+			},
+			"start": {
+				"type": "string"
+			},
+			"end": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
