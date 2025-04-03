@@ -35,7 +35,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=@{dataset().appid}",
+					"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().datatype}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}\n",
 					"type": "Expression"
 				}
 			}
