@@ -9,10 +9,10 @@
 				"userProperties": [],
 				"typeProperties": {
 					"items": {
-						"value": "@range(0, 52)",
+						"value": "@range(0, pipeline().parameters.weeksAgo)",
 						"type": "Expression"
 					},
-					"isSequential": true,
+					"isSequential": false,
 					"activities": [
 						{
 							"name": "Copy_HistoricalWeather_Data",
