@@ -68,7 +68,8 @@
 							"sink": {
 								"type": "JsonSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
+									"type": "AzureBlobStorageWriteSettings",
+									"copyBehavior": "MergeFiles"
 								},
 								"formatSettings": {
 									"type": "JsonWriteSettings"
@@ -80,7 +81,13 @@
 							{
 								"referenceName": "Air_Pollution_source",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"lat": "42.3601",
+									"lon": "-71.0589",
+									"start": "1705922663",
+									"end": "1737545063",
+									"appid": "fb5db4bc5fe067c1245a42fef44a01ea"
+								}
 							}
 						],
 						"outputs": [
@@ -161,10 +168,10 @@
 						"userProperties": [],
 						"typeProperties": {
 							"items": {
-								"value": "@range(0, 52)",
+								"value": "@range(0, pipeline().parameters.weeksAgo)",
 								"type": "Expression"
 							},
-							"isSequential": true,
+							"isSequential": false,
 							"activities": [
 								{
 									"name": "Copy_HistoricalWeather_Data",
@@ -205,7 +212,17 @@
 											"referenceName": "HistoricalWeather_source",
 											"type": "DatasetReference",
 											"parameters": {
-												"weekID": "@item()",
+												"lat": 42.3601,
+												"lon": -71.0589,
+												"start": {
+													"value": "@div(sub(ticks(addDays(utcNow(), mul(add(item(),1), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+													"type": "Expression"
+												},
+												"end": {
+													"value": "@div(sub(ticks(addDays(utcNow(), mul(item(), -7))), ticks('1970-01-01T00:00:00Z')), 10000000)",
+													"type": "Expression"
+												},
+												"datatype": "hour",
 												"appid": "fb5db4bc5fe067c1245a42fef44a01ea"
 											}
 										}
@@ -214,7 +231,9 @@
 										{
 											"referenceName": "HistoricalWeather_sink",
 											"type": "DatasetReference",
-											"parameters": {}
+											"parameters": {
+												"WeekID": 1
+											}
 										}
 									]
 								}
@@ -224,6 +243,12 @@
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"weeksAgo": {
+						"type": "int",
+						"defaultValue": 52
+					}
 				},
 				"variables": {
 					"weekOffset": {
@@ -302,8 +327,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": "processed_air_pollution_Jan12024_Jan12025.json",
-						"folderPath": "silver/air_pollution",
+						"fileName": "airpollution_output.json",
+						"folderPath": "bronze/air_pollution",
 						"container": "homwork1"
 					}
 				},
@@ -322,12 +347,32 @@
 					"referenceName": "HttpServer_Air_Pollution",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"lat": {
+						"type": "string"
+					},
+					"lon": {
+						"type": "string"
+					},
+					"start": {
+						"type": "string"
+					},
+					"end": {
+						"type": "string"
+					},
+					"appid": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
 						"type": "HttpServerLocation",
-						"relativeUrl": "data/2.5/air_pollution/history?lat=42.3601&lon=-71.0589&start=1707091200&end=1738704000&appid=fb5db4bc5fe067c1245a42fef44a01ea"
+						"relativeUrl": {
+							"value": "data/2.5/air_pollution/history?lat=@{dataset().lat}&lon=@{dataset().lon}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}",
+							"type": "Expression"
+						}
 					}
 				},
 				"schema": {}
@@ -356,11 +401,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@concat('processed_weather_week_', formatDateTime(subtractFromTime(subtractFromTime(utcNow(), dayOfWeek(utcNow()), 'Day'), dataset().weekID, 'Week'), 'yyyyMMdd'), '.json')",
-							"type": "Expression"
-						},
-						"folderPath": "silver/historical_weather",
+						"folderPath": "bronze/historical_weather",
 						"container": "homwork1"
 					}
 				},
@@ -380,12 +421,23 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"weekID": {
-						"type": "int"
+					"lat": {
+						"type": "float"
+					},
+					"lon": {
+						"type": "float"
+					},
+					"start": {
+						"type": "string"
+					},
+					"end": {
+						"type": "string"
+					},
+					"datatype": {
+						"type": "string"
 					},
 					"appid": {
-						"type": "string",
-						"defaultValue": "fb5db4bc5fe067c1245a42fef44a01ea"
+						"type": "string"
 					}
 				},
 				"annotations": [],
@@ -394,7 +446,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": {
-							"value": "data/2.5/weather?lat=42.3601&lon=-71.0589&appid=@{dataset().appid}",
+							"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().datatype}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}\n",
 							"type": "Expression"
 						}
 					}
