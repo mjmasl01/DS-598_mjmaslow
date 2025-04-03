@@ -28,7 +28,8 @@
 					"sink": {
 						"type": "JsonSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
+							"type": "AzureBlobStorageWriteSettings",
+							"copyBehavior": "MergeFiles"
 						},
 						"formatSettings": {
 							"type": "JsonWriteSettings"
@@ -39,7 +40,14 @@
 				"inputs": [
 					{
 						"referenceName": "Air_Pollution_source",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"lat": "42.3601",
+							"lon": "-71.0589",
+							"start": "1705922663",
+							"end": "1737545063",
+							"appid": "fb5db4bc5fe067c1245a42fef44a01ea"
+						}
 					}
 				],
 				"outputs": [
