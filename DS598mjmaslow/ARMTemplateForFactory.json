@@ -596,6 +596,58 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ParquetAirpollution')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage_AirPollution",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "air_pollution.parquet",
+						"folderPath": "silver",
+						"container": "bigdata-container"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_AirPollution')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ParquetHistoricalWeather')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage_HistoricalWeather",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "weather_data.parquet",
+						"folderPath": "silver",
+						"container": "bigdata-container"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_HistoricalWeather')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage_AirPollution')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -688,7 +740,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "Air_Pollution_sink",
+								"referenceName": "ParquetAirpollution",
 								"type": "DatasetReference"
 							},
 							"name": "PollutionSinkParquet",
@@ -771,6 +823,7 @@
 						"     skipDuplicateMapOutputs: true) ~> selectFinalPollutionColumns",
 						"selectFinalPollutionColumns sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
+						"     format: 'parquet',",
 						"     partitionFileNames:['air_pollution_data_silver.parquet'],",
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
@@ -780,6 +833,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Air_Pollution_sink')]",
+				"[concat(variables('factoryId'), '/datasets/ParquetAirpollution')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_AirPollution')]"
 			]
 		},
@@ -930,33 +984,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/HistoricalWeather_sink')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_HistoricalWeather')]",
-				"[concat(variables('factoryId'), '/datasets/ParquetHistoricalWeather')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ParquetHistoricalWeather')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage_HistoricalWeather",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Parquet",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "weather_data.parquet",
-						"folderPath": "silver/historical_weather",
-						"container": "bigdata-container"
-					},
-					"compressionCodec": "snappy"
-				},
-				"schema": []
-			},
-			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ParquetHistoricalWeather')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage_HistoricalWeather')]"
 			]
 		}
