@@ -29,7 +29,7 @@
 		},
 		"HttpServer_HistoricalWeather_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "http://api.openweathermap.org/"
+			"defaultValue": "http://history.openweathermap.org/"
 		}
 	},
 	"variables": {

@@ -21,7 +21,7 @@
 			"value": "http://api.openweathermap.org/"
 		},
 		"HttpServer_HistoricalWeather_properties_typeProperties_url": {
-			"value": "http://api.openweathermap.org/"
+			"value": "http://history.openweathermap.org/"
 		},
 		"containerUri": {
 			"value": ""
