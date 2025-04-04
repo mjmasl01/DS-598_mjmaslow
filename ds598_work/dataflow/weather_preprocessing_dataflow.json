@@ -12,7 +12,19 @@
 					"name": "WeatherSourceBronze"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ParquetHistoricalWeather",
+						"type": "DatasetReference"
+					},
+					"name": "sinkSilverHistoricalWeather",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureBlobStorage_HistoricalWeather",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
 			"transformations": [
 				{
 					"name": "flattenHistoricalWeatherData"
@@ -88,14 +100,8 @@
 				"          lon = -71.0589,",
 				"          rain_1h = iif(isNull(rain_1h), toFloat(0.0), toFloat(rain_1h))) ~> derivedColumnUnitConversionsNtypecorrections",
 				"derivedColumnUnitConversionsNtypecorrections select(mapColumn(",
-				"          calctime,",
-				"          city_id,",
-				"          cnt,",
-				"          cod,",
 				"          list,",
-				"          message,",
 				"          clouds_all,",
-				"          timestamp,",
 				"          feels_like_K = feels_like,",
 				"          humidity,",
 				"          pressure,",
@@ -105,7 +111,6 @@
 				"          weather_description,",
 				"          weather_icon,",
 				"          weather_id,",
-				"          weather_main,",
 				"          wind_deg,",
 				"          wind_gust,",
 				"          wind_speed,",
@@ -126,7 +131,13 @@
 				"          lon",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectDesiredWeatherColumns"
+				"     skipDuplicateMapOutputs: true) ~> selectDesiredWeatherColumns",
+				"selectDesiredWeatherColumns sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkSilverHistoricalWeather"
 			]
 		}
 	}

@@ -1,0 +1,21 @@
+{
+	"name": "ParquetHistoricalWeather",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage_HistoricalWeather",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "weather_data.parquet",
+				"folderPath": "silver/historical_weather",
+				"container": "bigdata-container"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
