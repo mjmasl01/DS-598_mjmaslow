@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "weather_data.parquet",
-				"folderPath": "silver/",
+				"folderPath": "silver",
 				"container": "bigdata-container"
 			},
 			"compressionCodec": "snappy"
