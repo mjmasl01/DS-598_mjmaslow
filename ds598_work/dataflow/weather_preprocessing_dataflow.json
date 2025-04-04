@@ -16,6 +16,15 @@
 			"transformations": [
 				{
 					"name": "flattenHistoricalWeatherData"
+				},
+				{
+					"name": "derivedColumnHistoricalWeather"
+				},
+				{
+					"name": "filterHistoricalWeather"
+				},
+				{
+					"name": "derivedColumnUnitConversionsNtypecorrections"
 				}
 			],
 			"scriptLines": [
@@ -58,7 +67,23 @@
 				"          rain_1h = list.rain.{1h}",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flattenHistoricalWeatherData"
+				"     skipDuplicateMapOutputs: false) ~> flattenHistoricalWeatherData",
+				"flattenHistoricalWeatherData derive(corrected_timestamp = iif(length(toString(timestamp)) > 10, toTimestamp(null()), toTimestamp(timestamp)),",
+				"          location = 'Boston') ~> derivedColumnHistoricalWeather",
+				"derivedColumnHistoricalWeather filter(!isNull(corrected_timestamp) && !isNull(temp) && !isNull(humidity)) ~> filterHistoricalWeather",
+				"filterHistoricalWeather derive(datetime = toTimestamp(toLong(corrected_timestamp) * 1000),",
+				"          id = concat(location, '_', toString(corrected_timestamp)),",
+				"          temp_C = round(temp - 273.15, 2),",
+				"          temp_min_C = round(temp_min - 273.15, 2),",
+				"          temp_max_C = round(temp_max - 273.15, 2),",
+				"          feels_like_C = round(feels_like - 273.15, 2),",
+				"          feels_like_F = round((feels_like - 273.15) * 9/5 + 32, 2),",
+				"          temp_F = round((temp - 273.15) * 9/5 + 32, 2),",
+				"          temp_min_F = round((temp_min - 273.15) * 9/5 + 32, 2),",
+				"          temp_max_F = round((temp_max - 273.15) * 9/5 + 32, 2),",
+				"          lat = 42.3601,",
+				"          lon = -71.0589,",
+				"          rain_1h = iif(isNull(rain_1h), toFloat(0.0), toFloat(rain_1h))) ~> derivedColumnUnitConversionsNtypecorrections"
 			]
 		}
 	}
