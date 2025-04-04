@@ -1,8 +1,8 @@
 {
-	"name": "ParquetHistoricalWeather",
+	"name": "ParquetAirpollution",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AzureBlobStorage_HistoricalWeather",
+			"referenceName": "AzureBlobStorage_AirPollution",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "weather_data.parquet",
-				"folderPath": "silver/",
+				"fileName": "air_pollution.parquet",
+				"folderPath": "silver",
 				"container": "bigdata-container"
 			},
 			"compressionCodec": "snappy"

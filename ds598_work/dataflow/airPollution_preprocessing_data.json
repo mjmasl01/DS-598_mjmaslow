@@ -15,7 +15,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Air_Pollution_sink",
+						"referenceName": "ParquetAirpollution",
 						"type": "DatasetReference"
 					},
 					"name": "PollutionSinkParquet",
@@ -69,8 +69,7 @@
 				"     skipDuplicateMapOutputs: false) ~> flattenAirPollutionSource",
 				"flattenAirPollutionSource derive(timestamp = iif(length(toString(timestamp)) == 10, toInteger(timestamp), toInteger(null())),",
 				"          location = 'Boston') ~> AddCorrectedTimestampAndLocation",
-				"AddCorrectedTimestampAndLocation filter(!isNull(timestamp) && !isNull(aqi)",
-				") ~> FilterValidPollutionRows",
+				"AddCorrectedTimestampAndLocation filter(!isNull(timestamp) && !isNull(aqi)) ~> FilterValidPollutionRows",
 				"FilterValidPollutionRows derive(date_time = toTimestamp(toLong(timestamp) * 1000),",
 				"          id = concat(location, '_', toString(timestamp)),",
 				"          co = round(co, 2),",
@@ -99,6 +98,7 @@
 				"     skipDuplicateMapOutputs: true) ~> selectFinalPollutionColumns",
 				"selectFinalPollutionColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
 				"     partitionFileNames:['air_pollution_data_silver.parquet'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
