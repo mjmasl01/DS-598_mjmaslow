@@ -71,10 +71,7 @@
 							"outputs": [
 								{
 									"referenceName": "HistoricalWeather_sink",
-									"type": "DatasetReference",
-									"parameters": {
-										"WeekID": 1
-									}
+									"type": "DatasetReference"
 								}
 							]
 						}
@@ -86,14 +83,6 @@
 			"weeksAgo": {
 				"type": "int",
 				"defaultValue": 52
-			}
-		},
-		"variables": {
-			"weekOffset": {
-				"type": "Integer"
-			},
-			"weekParam": {
-				"type": "Integer"
 			}
 		},
 		"annotations": []

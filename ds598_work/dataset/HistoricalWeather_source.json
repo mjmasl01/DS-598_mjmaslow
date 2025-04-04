@@ -22,7 +22,8 @@
 				"type": "string"
 			},
 			"appid": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "fb5db4bc5fe067c1245a42fef44a01ea"
 			}
 		},
 		"annotations": [],
