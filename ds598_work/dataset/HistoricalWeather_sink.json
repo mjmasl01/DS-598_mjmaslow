@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"folderPath": "bronze/historical_weather",
+				"folderPath": "bronze/historical_weather/data/2.5/history",
 				"container": "bigdata-container"
 			}
 		},
