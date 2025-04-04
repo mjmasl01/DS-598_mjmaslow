@@ -17,12 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "weather_preprocessing_dataflow",
-						"type": "DataFlowReference",
-						"datasetParameters": {
-							"WeatherSinkParquet": {
-								"WeekID": 1
-							}
-						}
+						"type": "DataFlowReference"
 					},
 					"compute": {
 						"coreCount": 8,
