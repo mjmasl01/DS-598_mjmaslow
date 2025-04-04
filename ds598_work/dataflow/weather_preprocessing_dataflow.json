@@ -25,6 +25,9 @@
 				},
 				{
 					"name": "derivedColumnUnitConversionsNtypecorrections"
+				},
+				{
+					"name": "selectDesiredWeatherColumns"
 				}
 			],
 			"scriptLines": [
@@ -83,7 +86,47 @@
 				"          temp_max_F = round((temp_max - 273.15) * 9/5 + 32, 2),",
 				"          lat = 42.3601,",
 				"          lon = -71.0589,",
-				"          rain_1h = iif(isNull(rain_1h), toFloat(0.0), toFloat(rain_1h))) ~> derivedColumnUnitConversionsNtypecorrections"
+				"          rain_1h = iif(isNull(rain_1h), toFloat(0.0), toFloat(rain_1h))) ~> derivedColumnUnitConversionsNtypecorrections",
+				"derivedColumnUnitConversionsNtypecorrections select(mapColumn(",
+				"          calctime,",
+				"          city_id,",
+				"          cnt,",
+				"          cod,",
+				"          list,",
+				"          message,",
+				"          clouds_all,",
+				"          timestamp,",
+				"          feels_like_K = feels_like,",
+				"          humidity,",
+				"          pressure,",
+				"          temp_K = temp,",
+				"          temp_max_K = temp_max,",
+				"          temp_min_K = temp_min,",
+				"          weather_description,",
+				"          weather_icon,",
+				"          weather_id,",
+				"          weather_main,",
+				"          wind_deg,",
+				"          wind_gust,",
+				"          wind_speed,",
+				"          rain_1h,",
+				"          corrected_timestamp,",
+				"          location,",
+				"          datetime,",
+				"          id,",
+				"          temp_C,",
+				"          temp_min_C,",
+				"          temp_max_C,",
+				"          feels_like_C,",
+				"          feels_like_F,",
+				"          temp_F,",
+				"          temp_min_F,",
+				"          temp_max_F,",
+				"          lat,",
+				"          lon",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectDesiredWeatherColumns"
 			]
 		}
 	}
