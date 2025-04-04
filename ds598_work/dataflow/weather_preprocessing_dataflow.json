@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "JsonWeatherSourceBronze_4_Flattening",
+						"referenceName": "HistoricalWeather_sink",
 						"type": "DatasetReference"
 					},
 					"name": "WeatherSourceBronze"
@@ -43,23 +43,7 @@
 				}
 			],
 			"scriptLines": [
-				"source(output(",
-				"          coord as (lon as double, lat as double),",
-				"          weather as (id as integer, main as string, description as string, icon as string)[],",
-				"          base as string,",
-				"          main as (temp as double, feels_like as double, temp_min as double, temp_max as double, pressure as integer, humidity as integer, sea_level as integer, grnd_level as integer),",
-				"          visibility as integer,",
-				"          wind as (speed as double, deg as integer),",
-				"          snow as ({1h} as double),",
-				"          clouds as (all as integer),",
-				"          dt as integer,",
-				"          sys as (type as integer, id as integer, country as string, sunrise as integer, sunset as integer),",
-				"          timezone as integer,",
-				"          id as integer,",
-				"          name as string,",
-				"          cod as integer",
-				"     ),",
-				"     allowSchemaDrift: true,",
+				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine',",
