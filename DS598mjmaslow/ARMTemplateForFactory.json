@@ -231,9 +231,7 @@
 										{
 											"referenceName": "HistoricalWeather_sink",
 											"type": "DatasetReference",
-											"parameters": {
-												"WeekID": 1
-											}
+											"parameters": {}
 										}
 									]
 								}
@@ -248,14 +246,6 @@
 					"weeksAgo": {
 						"type": "int",
 						"defaultValue": 52
-					}
-				},
-				"variables": {
-					"weekOffset": {
-						"type": "Integer"
-					},
-					"weekParam": {
-						"type": "Integer"
 					}
 				},
 				"annotations": []
@@ -290,10 +280,9 @@
 								"parameters": {},
 								"datasetParameters": {
 									"WeatherSourceBronze": {},
-									"WeatherSinkParquet": {
-										"WeekID": 1
-									}
-								}
+									"WeatherSinkParquet": {}
+								},
+								"linkedServiceParameters": {}
 							},
 							"staging": {},
 							"compute": {
@@ -390,12 +379,6 @@
 					"referenceName": "AzureBlobStorage_HistoricalWeather",
 					"type": "LinkedServiceReference"
 				},
-				"parameters": {
-					"WeekID": {
-						"type": "int",
-						"defaultValue": 1
-					}
-				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
@@ -437,7 +420,8 @@
 						"type": "string"
 					},
 					"appid": {
-						"type": "string"
+						"type": "string",
+						"defaultValue": "fb5db4bc5fe067c1245a42fef44a01ea"
 					}
 				},
 				"annotations": [],
