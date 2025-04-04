@@ -32,7 +32,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=@{dataset().datatype}&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}\n",
+					"value": "data/2.5/history/city?lat=@{dataset().lat}&lon=@{dataset().lon}&type=hour&start=@{dataset().start}&end=@{dataset().end}&appid=@{dataset().appid}\n\n",
 					"type": "Expression"
 				}
 			}
